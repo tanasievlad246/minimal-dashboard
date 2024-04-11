@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  backend:
+    build: backend/
+    container_name: altmetrics-backend
+    command: npm run start:dev
+    volumes:
+      - .:/backend/app
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+      - DB_USER=postgres
+      - DB_PASS=dbpassword
+      - DB_HOST=postgres
+      - DB_NAME=accounting
+    depends_on:
+      - postgres
+  client:
+    build: client/
+    container_name: altmetrics-frontend
+    command: npm run dev
+    ports:
+      - '5173:5173'
+    expose:
+      - '5173'
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+      - /app/node_modules/tailwindcss
+  postgres:
+    container_name: altmetrics-database
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dbpassword
+      POSTGRES_DB: accounting
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
