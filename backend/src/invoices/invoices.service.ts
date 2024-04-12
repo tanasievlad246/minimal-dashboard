@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Invoice, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { Request } from 'express';
 import { REQUEST } from '@nestjs/core';
 

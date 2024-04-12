@@ -27,14 +27,15 @@ services:
     expose:
       - '5173'
     volumes:
-      - ./client:/app
-      - /app/node_modules
-      - /app/node_modules/tailwindcss
+      - .:/client/app
+      - /client/node_modules
+      - ./client/postcss.config.js:/client/app/postcss.config.js
+      - ./client/tailwind.config.js:/client/app/tailwind.config.js
     develop:
       watch:
          - action: sync
            path: ./client
-           target: /src
+           target: /
            ignore:
             - node_modules/
          - action: rebuild
