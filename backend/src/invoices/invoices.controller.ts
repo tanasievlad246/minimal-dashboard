@@ -31,7 +31,7 @@ export class InvoicesController {
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {
-      const invoice = await this.invoicesService.findOne({ id });
+      const invoice = await this.invoicesService.findOne(id);
       if (!invoice) {
         throw new HttpException('Invoice not found', 404);
       }

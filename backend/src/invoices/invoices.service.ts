@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Prisma } from '@prisma/client';
+import { Invoice, Prisma } from '@prisma/client';
 import { Request } from 'express';
 import { REQUEST } from '@nestjs/core';
 
@@ -36,30 +36,30 @@ export class InvoicesService {
     });
   }
 
-  async findOne(invoiceUniqueInput: Prisma.InvoiceWhereUniqueInput) {
+  async findOne(invoiceId: number) {
     return await this.prisma.invoice.findUnique({
       where: {
         user_id: this.request.user.id,
-        ...invoiceUniqueInput
+        id: invoiceId
       }
     });
   }
 
-  async update(invoiceWhereUniqueInput: Prisma.InvoiceWhereUniqueInput, updateInvoiceDto: UpdateInvoiceDto) {
+  async update(invoiceId: number, updateInvoiceDto: UpdateInvoiceDto) {
     return await this.prisma.invoice.update({
       where: {
         user_id: this.request.user.id,
-        ...invoiceWhereUniqueInput
+        id: invoiceId
       },
       data: updateInvoiceDto
     });
   }
 
-  async remove(invoiceWhereUniqueInput: Prisma.InvoiceWhereUniqueInput) {
+  async remove(invoiceId: number) {
     return await this.prisma.invoice.delete({
       where: {
         user_id: this.request.user.id,
-        ...invoiceWhereUniqueInput
+        id: invoiceId
       }
     });
   }
