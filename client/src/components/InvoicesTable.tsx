@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchUserInvoices } from "../features/user-invoices";
-import { stat } from "fs";
 
 export const InvoicesTable = () => {
     const invoices = useAppSelector((state) => state.userInvoices.invoices);
@@ -10,10 +9,6 @@ export const InvoicesTable = () => {
     useEffect(() => {
         dispatch(fetchUserInvoices());
     }, []);
-
-    useEffect(() => {
-        console.log(invoices);
-    }, [invoices]);
 
     const columns = [
         {
@@ -76,7 +71,6 @@ export const InvoicesTable = () => {
 
                                     if (column.selectable) {
                                         if (column.selector === 'created_at') {
-                                            console.log('created_at', created_at);
                                             const day = new Date(created_at).getDate();
                                             const month = new Date(created_at).getMonth();
                                             const year = new Date(created_at).getFullYear();

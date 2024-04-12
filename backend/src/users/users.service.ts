@@ -58,7 +58,6 @@ export class UsersService {
     try {
       return await compare(password, hash);
     } catch (error) {
-      console.log(error);
       throw new HttpException('Internal Server Error', 500);
     }
   }
