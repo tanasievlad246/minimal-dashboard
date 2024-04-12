@@ -42,7 +42,7 @@ export const Login = () => {
     }
 
     return (
-        <div className="flex flex-col w-full h-full justify-center items-center">
+        <div className="flex flex-col w-full h-full justify-center items-center col-span-12">
             <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                 <div className="card-body">
                     <div className="form-control">
