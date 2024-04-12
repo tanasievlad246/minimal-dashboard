@@ -1,29 +1,53 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException } from '@nestjs/common';
 import { InvoicesService } from './invoices.service';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
 
 @Controller('invoices')
 export class InvoicesController {
-  constructor(private readonly invoicesService: InvoicesService) {}
+  constructor(private readonly invoicesService: InvoicesService) { }
 
   @Post()
   async create(@Body() createInvoiceDto: CreateInvoiceDto) {
-    return await this.invoicesService.create(createInvoiceDto);
+    try {
+      return await this.invoicesService.create(createInvoiceDto);
+    } catch (error) {
+      throw new HttpException('Internal Server Error', 500);
+    }
   }
 
   @Get()
   async findAll() {
-    return await this.invoicesService.findAll();
+    try {
+      return await this.invoicesService.findAll();
+    } catch (error) {
+      throw new HttpException('Internal Server Error', 500);
+    }
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.invoicesService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    try {
+      const invoice = await this.invoicesService.findOne({ id });
+      if (!invoice) {
+        throw new HttpException('Invoice not found', 404);
+      }
+      return invoice;
+    } catch (error) {
+      throw new HttpException('Internal Server Error', 500);
+    }
   }
 
   @Post('total')
   async getTotal() {
-    return await this.invoicesService.getTotal();
+    try {
+      const total = await this.invoicesService.getTotal();
+      if (total < 1) {
+        throw new HttpException('No invoices found', 404);
+      }
+      return total;
+    } catch (error) {
+      throw new HttpException('Internal Server Error', 500);
+    }
   }
 }
