@@ -15,6 +15,7 @@ services:
       - DB_HOST=postgres
       - DB_NAME=accounting
       - DB_URL=postgresql://postgres:dbpassword@postgres:5432/accounting
+      - JWT_SECRET=secret
     depends_on:
       - postgres
   client:
