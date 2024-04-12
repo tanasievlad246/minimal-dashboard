@@ -12,11 +12,11 @@ export const ProtectedRoute: React.FC<{
         console.log('isAuth', isAuthenticated);
     }, [isAuthenticated]);
 
-    return isAuthenticated ? 
-        <div className='bg-white col-span-10 p-4 rounded-3xl'>
+    return isAuthenticated ?
+        <div className='bg-white col-span-10 p-4 rounded-3xl h-1/3'>
             <MenuBar />
             <div className="divider"></div>
             {children}
-        </div> 
-    : <Navigate to="/" />;
+        </div>
+        : <Navigate to="/" />;
 };
