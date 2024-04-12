@@ -8,22 +8,22 @@ export class InvoicesController {
   constructor(private readonly invoicesService: InvoicesService) {}
 
   @Post()
-  create(@Body() createInvoiceDto: CreateInvoiceDto) {
-    return this.invoicesService.create(createInvoiceDto);
+  async create(@Body() createInvoiceDto: CreateInvoiceDto) {
+    return await this.invoicesService.create(createInvoiceDto);
   }
 
   @Get()
-  findAll() {
-    return this.invoicesService.findAll();
+  async findAll() {
+    return await this.invoicesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.invoicesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.invoicesService.findOne(+id);
   }
 
   @Post('total')
   async getTotal() {
-    return this.invoicesService.getTotal();
+    return await this.invoicesService.getTotal();
   }
 }
