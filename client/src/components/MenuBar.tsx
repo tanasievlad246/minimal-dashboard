@@ -18,7 +18,7 @@ export const MenuBar = () => {
             </div>
             <div className="flex flex-row justify-between w-2/6">
                 <input type="text" placeholder="Search" className="input input-sm input-bordered w-3/5 bg-slate-200" />
-                <div className="flex flex-row justify-between w-1/4">
+                <div className="flex flex-row justify-between w-1/4 mx-10">
                     <FontAwesomeIcon icon={faBell} className="text-2xl" />
                     <FontAwesomeIcon icon={faCog} className="text-2xl" />
                     <FontAwesomeIcon icon={faMoon} className="text-2xl" />
