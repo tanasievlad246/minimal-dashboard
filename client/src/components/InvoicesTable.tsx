@@ -1,10 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { fetchUserInvoices } from "../features/user-invoices";
+import { Invoice, fetchUserInvoices } from "../features/user-invoices";
+import { InvoiceDialog } from "./InvoiceDialog";
 
 export const InvoicesTable = () => {
     const invoices = useAppSelector((state) => state.userInvoices.invoices);
     const dispatch = useAppDispatch();
+
+    const [selectedInvoice, setSelectedInvoice] = useState<Invoice | undefined | null>(null);
+    const invoiceDialogRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
         dispatch(fetchUserInvoices());
@@ -35,6 +39,10 @@ export const InvoicesTable = () => {
         {
             name: 'Status',
             selector: 'paid',
+        },
+        {
+            name: '',
+            selector: 'view'
         }
     ]
 
@@ -42,13 +50,13 @@ export const InvoicesTable = () => {
 
     return (
         <div className="overflow-y-scroll h-5/6 rounded-t-2xl">
+            <InvoiceDialog ref={invoiceDialogRef} invoice={selectedInvoice} setSelectedInvoice={setSelectedInvoice} />
             <table className="table h-full border-collapse border-2 border-white">
-                {/* head */}
                 <thead className="bg-primary-600 text-white text-lg">
                     <tr>
                         {columns.map((column, index) => {
                             if (column.selectable) {
-                                return <th key={index} className="border-r-2 border-b-2 border-slate-200"><input type="checkbox"  className={checkBoxClassName} />{column.name}</th>
+                                return <th key={index} className="border-r-2 border-b-2 border-slate-200"><input type="checkbox" className={checkBoxClassName} />{column.name}</th>
                             }
                             return <th key={index} className="border-r-2 border-b-2 border-slate-200">{column.name}</th>
                         })}
@@ -57,7 +65,7 @@ export const InvoicesTable = () => {
                 <tbody>
                     {invoices.map((invoice, index) => {
                         return (
-                            <tr key={index}>
+                            <tr key={index} className="hover:bg-primary-200 hover:text-black">
                                 {columns.map((column, index) => {
                                     const {
                                         due_date,
@@ -86,7 +94,12 @@ export const InvoicesTable = () => {
                                         return <td key={index} className="border-b-2 border-slate-200">{day}/{month}/{year}</td>
                                     }
 
-
+                                    if (column.selector === 'view') {
+                                        return <td key={index} className="border-b-2 border-slate-200"><button className="btn bg-primary-500 hover:bg-primary-700 text-white btn-xs" onClick={() => {
+                                            setSelectedInvoice(invoice);
+                                            invoiceDialogRef.current?.showModal();
+                                        }}>View</button></td>
+                                    }
 
                                     return <td key={index} className="border-b-2 border-slate-200">{invoice[column.selector]}</td>
                                 })}

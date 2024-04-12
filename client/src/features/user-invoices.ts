@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-type Invoice = {
+export type Invoice = {
+    id: number;
     date: string;
     payee: string;
     description: string;
