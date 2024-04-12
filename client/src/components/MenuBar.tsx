@@ -8,7 +8,7 @@ export const MenuBar = () => {
     const currentPath = `${pathSegments[0][0].toUpperCase()}${pathSegments[0].slice(1).toLowerCase()}`;
     return (
         <div className="navbar flex flex-row justify-between">
-            <div className="flex flex-row justify-between w-1/6">
+            <div className="flex flex-row w-1/6">
                 <button className="btn btn-square btn-ghost">
                     <FontAwesomeIcon icon={faBars} className="text-2xl" />
                 </button>
@@ -17,11 +17,11 @@ export const MenuBar = () => {
                 </div>
             </div>
             <div className="flex flex-row justify-between w-2/6">
-                <input type="text" placeholder="Search" className="input input-sm input-bordered w-3/5 bg-slate-200" />
+                <input type="text" placeholder="Search" className="input input-sm input-bordered w-3/5 bg-gray-100 rounded-2xl" />
                 <div className="flex flex-row justify-between w-1/4 mx-10">
-                    <FontAwesomeIcon icon={faBell} className="text-2xl" />
-                    <FontAwesomeIcon icon={faCog} className="text-2xl" />
-                    <FontAwesomeIcon icon={faMoon} className="text-2xl" />
+                    <FontAwesomeIcon icon={faBell} className="text-2xl cursor-pointer hover:text-slate-600" />
+                    <FontAwesomeIcon icon={faCog} className="text-2xl cursor-pointer hover:text-slate-600" />
+                    <FontAwesomeIcon icon={faMoon} className="text-2xl cursor-pointer hover:text-slate-600" />
                 </div>
                 <div className="avatar">
                     <div className="w-12 rounded-full">
