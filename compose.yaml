@@ -5,9 +5,12 @@ services:
     container_name: altmetrics-backend
     command: npm run start:dev
     volumes:
-      - .:/backend/app
+      - ./backend:/app
+      - ./backend/prisma:/backend/app/prisma
+      - /backend/node_modules
     ports:
       - '3000:3000'
+    restart: always
     environment:
       - NODE_ENV=development
       - DB_USER=postgres
@@ -26,20 +29,12 @@ services:
       - '5173:5173'
     expose:
       - '5173'
+    restart: always
     volumes:
-      - .:/client/app
+      - ./client:/app
       - /client/node_modules
       - ./client/postcss.config.js:/client/app/postcss.config.js
       - ./client/tailwind.config.js:/client/app/tailwind.config.js
-    develop:
-      watch:
-         - action: sync
-           path: ./client
-           target: /
-           ignore:
-            - node_modules/
-         - action: rebuild
-           path: ./client/package.json
   postgres:
     container_name: altmetrics-database
     image: postgres:latest

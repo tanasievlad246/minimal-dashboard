@@ -1,8 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import * as bcrypt from 'bcrypt';
-
+import { compare, hash } from 'bcryptjs';
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) { }
@@ -21,7 +20,7 @@ export class UsersService {
 
       const userData = {
         ...createUserDto,
-        password: await bcrypt.hash(createUserDto.password, 10)
+        password: await hash(createUserDto.password, 10)
       };
 
       const user = await this.prisma.user.create({
@@ -56,6 +55,11 @@ export class UsersService {
   }
 
   async comparePasswords(password: string, hash: string) {
-    return await bcrypt.compare(password, hash);
+    try {
+      return await compare(password, hash);
+    } catch (error) {
+      console.log(error);
+      throw new HttpException('Internal Server Error', 500);
+    }
   }
 }
