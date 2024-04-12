@@ -1,8 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { useEffect, useState } from "react";
 
 export const Navigation = () => {
+    const location = useLocation();
+    const pathSegments = location.pathname.split('/').filter(segment => segment !== '');
+    const [currentPath, setCurrentPath] = useState(`${pathSegments[0][0].toUpperCase()}${pathSegments[0].slice(1).toLowerCase()}`);
+    
+    useEffect(() => {
+        setCurrentPath(`${pathSegments[0][0].toUpperCase()}${pathSegments[0].slice(1).toLowerCase()}`);
+    }, [location]);
+
     const menuItems = [,
         {
             name: 'Invoices',
@@ -10,15 +19,15 @@ export const Navigation = () => {
         },
         {
             name: 'Bills',
-            path: '/bills'
+            path: '#'
         },
         {
             name: 'Expenses',
-            path: '/expenses'
+            path: '#'
         },
         {
             name: 'Reports',
-            path: '/reports'
+            path: '#'
         }
     ]
     return <div className="flex flex-col col-span-2 items-center text-slate-600 text-xl px-10 py-5">
@@ -32,7 +41,7 @@ export const Navigation = () => {
                     <span>Home</span>
                 </Link>
                 {menuItems.map((item, index) => {
-                    return <Link to={item.path} key={index} className="flex w-full items-center p-2 hover:bg-primary-500 rounded-lg">
+                    return <Link to={item.path} key={index} className={`flex w-full items-center p-2 hover:bg-primary-500 rounded-lg ${currentPath === item?.name ? 'font-bold' : ''}`}>
                         <FontAwesomeIcon icon={faChevronRight} />
                         <span className="ml-6">{item.name}</span>
                     </Link>
