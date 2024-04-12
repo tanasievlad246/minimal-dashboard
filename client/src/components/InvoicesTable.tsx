@@ -42,15 +42,15 @@ export const InvoicesTable = () => {
 
     return (
         <div className="overflow-y-scroll h-5/6 rounded-t-2xl">
-            <table className="table h-full">
+            <table className="table h-full border-collapse border-2 border-white">
                 {/* head */}
                 <thead className="bg-primary-600 text-white text-lg">
                     <tr>
                         {columns.map((column, index) => {
                             if (column.selectable) {
-                                return <th key={index}><input type="checkbox" className={checkBoxClassName} />{column.name}</th>
+                                return <th key={index} className="border-r-2 border-b-2 border-slate-200"><input type="checkbox"  className={checkBoxClassName} />{column.name}</th>
                             }
-                            return <th key={index}>{column.name}</th>
+                            return <th key={index} className="border-r-2 border-b-2 border-slate-200">{column.name}</th>
                         })}
                     </tr>
                 </thead>
@@ -66,7 +66,7 @@ export const InvoicesTable = () => {
                                     } = invoice;
 
                                     if (column.selector === 'paid') {
-                                        return <td key={index}>{paid ? 'Paid' : 'Unpaid'}</td>
+                                        return <td key={index} className="border-b-2 border-slate-200">{paid ? 'Paid' : 'Unpaid'}</td>
                                     }
 
                                     if (column.selectable) {
@@ -74,21 +74,21 @@ export const InvoicesTable = () => {
                                             const day = new Date(created_at).getDate();
                                             const month = new Date(created_at).getMonth();
                                             const year = new Date(created_at).getFullYear();
-                                            return <td key={index}><input type="checkbox" className={checkBoxClassName} />{day}/{month}/{year}</td>
+                                            return <td key={index} className="border-b-2 border-slate-200"><input type="checkbox" className={checkBoxClassName} />{day}/{month}/{year}</td>
                                         }
-                                        return <td key={index}><input type="checkbox" className={checkBoxClassName} />{invoice[column.selector]}</td>
+                                        return <td key={index} className="border-b-2 border-slate-200"><input type="checkbox" className={checkBoxClassName} />{invoice[column.selector]}</td>
                                     }
 
                                     if (column.selector === 'due_date') {
                                         const day = new Date(due_date).getDate();
                                         const month = new Date(due_date).getMonth();
                                         const year = new Date(due_date).getFullYear();
-                                        return <td key={index}>{day}/{month}/{year}</td>
+                                        return <td key={index} className="border-b-2 border-slate-200">{day}/{month}/{year}</td>
                                     }
 
 
 
-                                    return <td key={index}>{invoice[column.selector]}</td>
+                                    return <td key={index} className="border-b-2 border-slate-200">{invoice[column.selector]}</td>
                                 })}
                             </tr>
                         )
