@@ -1,154 +1,105 @@
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { fetchUserInvoices } from "../features/user-invoices";
+import { stat } from "fs";
+
 export const InvoicesTable = () => {
+    const invoices = useAppSelector((state) => state.userInvoices.invoices);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(fetchUserInvoices());
+    }, []);
+
+    useEffect(() => {
+        console.log(invoices);
+    }, [invoices]);
+
+    const columns = [
+        {
+            name: 'Date',
+            selector: 'created_at',
+            selectable: true,
+        },
+        {
+            name: 'Payee',
+            selector: 'vendor_name',
+        },
+        {
+            name: 'Description',
+            selector: 'description',
+        },
+        {
+            name: 'Due date',
+            selector: 'due_date',
+        },
+        {
+            name: 'Amount',
+            selector: 'amount',
+        },
+        {
+            name: 'Status',
+            selector: 'paid',
+        }
+    ]
+
+    const checkBoxClassName = "mr-4 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+
     return (
-        <div className="overflow-x-auto">
-            <table className="table">
+        <div className="overflow-y-scroll h-5/6 rounded-t-2xl">
+            <table className="table h-full">
                 {/* head */}
-                <thead>
+                <thead className="bg-primary-600 text-white text-lg">
                     <tr>
-                        <th>
-                            <label>
-                                <input type="checkbox" className="checkbox" />
-                            </label>
-                        </th>
-                        <th>Name</th>
-                        <th>Job</th>
-                        <th>Favorite Color</th>
-                        <th></th>
+                        {columns.map((column, index) => {
+                            if (column.selectable) {
+                                return <th key={index}><input type="checkbox" className={checkBoxClassName} />{column.name}</th>
+                            }
+                            return <th key={index}>{column.name}</th>
+                        })}
                     </tr>
                 </thead>
                 <tbody>
-                    {/* row 1 */}
-                    <tr>
-                        <th>
-                            <label>
-                                <input type="checkbox" className="checkbox" />
-                            </label>
-                        </th>
-                        <td>
-                            <div className="flex items-center gap-3">
-                                <div className="avatar">
-                                    <div className="mask mask-squircle w-12 h-12">
-                                        <img src="/tailwind-css-component-profile-2@56w.png" alt="Avatar Tailwind CSS Component" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="font-bold">Hart Hagerty</div>
-                                    <div className="text-sm opacity-50">United States</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            Zemlak, Daniel and Leannon
-                            <br />
-                            <span className="badge badge-ghost badge-sm">Desktop Support Technician</span>
-                        </td>
-                        <td>Purple</td>
-                        <th>
-                            <button className="btn btn-ghost btn-xs">details</button>
-                        </th>
-                    </tr>
-                    {/* row 2 */}
-                    <tr>
-                        <th>
-                            <label>
-                                <input type="checkbox" className="checkbox" />
-                            </label>
-                        </th>
-                        <td>
-                            <div className="flex items-center gap-3">
-                                <div className="avatar">
-                                    <div className="mask mask-squircle w-12 h-12">
-                                        <img src="/tailwind-css-component-profile-3@56w.png" alt="Avatar Tailwind CSS Component" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="font-bold">Brice Swyre</div>
-                                    <div className="text-sm opacity-50">China</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            Carroll Group
-                            <br />
-                            <span className="badge badge-ghost badge-sm">Tax Accountant</span>
-                        </td>
-                        <td>Red</td>
-                        <th>
-                            <button className="btn btn-ghost btn-xs">details</button>
-                        </th>
-                    </tr>
-                    {/* row 3 */}
-                    <tr>
-                        <th>
-                            <label>
-                                <input type="checkbox" className="checkbox" />
-                            </label>
-                        </th>
-                        <td>
-                            <div className="flex items-center gap-3">
-                                <div className="avatar">
-                                    <div className="mask mask-squircle w-12 h-12">
-                                        <img src="/tailwind-css-component-profile-4@56w.png" alt="Avatar Tailwind CSS Component" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="font-bold">Marjy Ferencz</div>
-                                    <div className="text-sm opacity-50">Russia</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            Rowe-Schoen
-                            <br />
-                            <span className="badge badge-ghost badge-sm">Office Assistant I</span>
-                        </td>
-                        <td>Crimson</td>
-                        <th>
-                            <button className="btn btn-ghost btn-xs">details</button>
-                        </th>
-                    </tr>
-                    {/* row 4 */}
-                    <tr>
-                        <th>
-                            <label>
-                                <input type="checkbox" className="checkbox" />
-                            </label>
-                        </th>
-                        <td>
-                            <div className="flex items-center gap-3">
-                                <div className="avatar">
-                                    <div className="mask mask-squircle w-12 h-12">
-                                        <img src="/tailwind-css-component-profile-5@56w.png" alt="Avatar Tailwind CSS Component" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="font-bold">Yancy Tear</div>
-                                    <div className="text-sm opacity-50">Brazil</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            Wyman-Ledner
-                            <br />
-                            <span className="badge badge-ghost badge-sm">Community Outreach Specialist</span>
-                        </td>
-                        <td>Indigo</td>
-                        <th>
-                            <button className="btn btn-ghost btn-xs">details</button>
-                        </th>
-                    </tr>
-                </tbody>
-                {/* foot */}
-                <tfoot>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Job</th>
-                        <th>Favorite Color</th>
-                        <th></th>
-                    </tr>
-                </tfoot>
+                    {invoices.map((invoice, index) => {
+                        return (
+                            <tr key={index}>
+                                {columns.map((column, index) => {
+                                    const {
+                                        due_date,
+                                        created_at,
+                                        paid
+                                    } = invoice;
 
+                                    if (column.selector === 'paid') {
+                                        return <td key={index}>{paid ? 'Paid' : 'Unpaid'}</td>
+                                    }
+
+                                    if (column.selectable) {
+                                        if (column.selector === 'created_at') {
+                                            console.log('created_at', created_at);
+                                            const day = new Date(created_at).getDate();
+                                            const month = new Date(created_at).getMonth();
+                                            const year = new Date(created_at).getFullYear();
+                                            return <td key={index}><input type="checkbox" className={checkBoxClassName} />{day}/{month}/{year}</td>
+                                        }
+                                        return <td key={index}><input type="checkbox" className={checkBoxClassName} />{invoice[column.selector]}</td>
+                                    }
+
+                                    if (column.selector === 'due_date') {
+                                        const day = new Date(due_date).getDate();
+                                        const month = new Date(due_date).getMonth();
+                                        const year = new Date(due_date).getFullYear();
+                                        return <td key={index}>{day}/{month}/{year}</td>
+                                    }
+
+
+
+                                    return <td key={index}>{invoice[column.selector]}</td>
+                                })}
+                            </tr>
+                        )
+                    })}
+                </tbody>
             </table>
         </div>
     );
