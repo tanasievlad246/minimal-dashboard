@@ -1,29 +1,48 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class InvoicesService {
-  getTotal() {
-    throw new Error('Method not implemented.');
-  }
-  create(createInvoiceDto: CreateInvoiceDto) {
-    return 'This action adds a new invoice';
+  constructor(private readonly prisma: PrismaService) { }
+
+  async getTotal() {
+    const total = await this.prisma.invoice.aggregate({
+      _sum: {
+        amount: true
+      }
+    });
+    return total;
   }
 
-  findAll() {
-    return `This action returns all invoices`;
+  async create(createInvoiceDto: CreateInvoiceDto) {
+    return await this.prisma.invoice.create({
+      data: createInvoiceDto
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} invoice`;
+  async findAll() {
+    return await this.prisma.invoice.findMany();
   }
 
-  update(id: number, updateInvoiceDto: UpdateInvoiceDto) {
-    return `This action updates a #${id} invoice`;
+  async findOne(invoiceUniqueInput: Prisma.InvoiceWhereUniqueInput) {
+    return await this.prisma.invoice.findUnique({
+      where: invoiceUniqueInput
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} invoice`;
+  async update(invoiceWhereUniqueInput: Prisma.InvoiceWhereUniqueInput, updateInvoiceDto: UpdateInvoiceDto) {
+    return await this.prisma.invoice.update({
+      where: invoiceWhereUniqueInput,
+      data: updateInvoiceDto
+    });
+  }
+
+  async remove(invoiceWhereUniqueInput: Prisma.InvoiceWhereUniqueInput) {
+    return await this.prisma.invoice.delete({
+      where: invoiceWhereUniqueInput 
+    });
   }
 }
