@@ -19,7 +19,9 @@ export class AuthController {
     }
 
     const payload = { email: user.email, sub: user.id };
-    const token = this.jwtService.sign(payload);
+    const token = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET,
+    });
 
     res.cookie('jwt', token, { httpOnly: true });
   }
