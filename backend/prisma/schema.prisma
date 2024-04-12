@@ -29,4 +29,5 @@ model Invoice {
   description String
   user_id     Int
   paid        Boolean
+  created_at  DateTime @default(now())
 }
