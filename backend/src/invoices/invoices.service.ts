@@ -8,13 +8,13 @@ import { Prisma } from '@prisma/client';
 export class InvoicesService {
   constructor(private readonly prisma: PrismaService) { }
 
-  async getTotal() {
+  async getTotal(): Promise<number> {
     const total = await this.prisma.invoice.aggregate({
       _sum: {
         amount: true
       }
     });
-    return total;
+    return total._sum.amount;
   }
 
   async create(createInvoiceDto: CreateInvoiceDto) {
