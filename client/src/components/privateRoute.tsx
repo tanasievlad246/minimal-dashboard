@@ -11,5 +11,5 @@ export const ProtectedRoute: React.FC<{
         console.log('isAuth', isAuthenticated);
     }, [isAuthenticated]);
 
-    return isAuthenticated ? <>{children}</> : <Navigate to="/" />;
+    return isAuthenticated ? <div className='bg-white col-span-10 p-4 rounded-3xl'>{children}</div> : <Navigate to="/" />;
 };
