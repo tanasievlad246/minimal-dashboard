@@ -30,6 +30,15 @@ services:
       - ./client:/app
       - /app/node_modules
       - /app/node_modules/tailwindcss
+    develop:
+      watch:
+         - action: sync
+           path: ./client
+           target: /src
+           ignore:
+            - node_modules/
+         - action: rebuild
+           path: ./client/package.json
   postgres:
     container_name: altmetrics-database
     image: postgres:latest
